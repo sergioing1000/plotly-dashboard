@@ -2,13 +2,24 @@
   "name": "plotly-dashboard",
   "version": "1.0.0",
   "description": "Web Application Plotly ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sergioing1000/plotly-dashboard.git"
+  },
   "license": "ISC",
   "author": "Sergio Cruz",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.8",
+    "vitest": "^4.1.8"
   }
 }
