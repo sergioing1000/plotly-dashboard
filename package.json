@@ -1,0 +1,14 @@
+{
+  "name": "plotly-dashboard",
+  "version": "1.0.0",
+  "description": "Web Application Plotly ",
+  "license": "ISC",
+  "author": "Sergio Cruz",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
