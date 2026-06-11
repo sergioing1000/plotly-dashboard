@@ -21,7 +21,6 @@ async function loadCharts() {
       responsive: true,
     },
   );
-
   Plotly.newPlot(
     "Chart 2",
     [
@@ -39,7 +38,6 @@ async function loadCharts() {
       responsive: true,
     },
   );
-
   Plotly.newPlot(
     "Chart 3",
     [
