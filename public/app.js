@@ -1,5 +1,6 @@
-async function loadCharts() {
 
+async function loadCharts() {
+  
   const response = await fetch("/api/charts");
 
   const data = await response.json();

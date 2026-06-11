@@ -11,6 +11,13 @@ Garantizar que cada cambio enviado al repositorio sea validado automáticamente 
 * Generación de reportes de cobertura de código.
 * Almacenamiento del reporte de cobertura como artefacto descargable.
 
+Se garantiza que 
+✅ Integración Continua (CI)
+✅ Análisis estático de código (ESLint)
+✅ Pruebas unitarias automatizadas (Vitest)
+✅ Medición de cobertura de código
+✅ Publicación de artefactos de cobertura
+
 ---
 
 ## ⚙️ Archivo de configuración
@@ -179,25 +186,31 @@ Este artefacto puede descargarse desde la ejecución del workflow en GitHub para
 ## 📈 Flujo de ejecución
 
 ```text
+
 Push / Pull Request
-          │
-          ▼
- Clonar repositorio
-          │
-          ▼
- Configurar Node.js 22.x
-          │
-          ▼
- Instalar dependencias (npm ci)
-          │
-          ▼
- Ejecutar pruebas (Vitest)
-          │
-          ▼
- Generar cobertura
-          │
-          ▼
- Publicar reporte de cobertura
+        │
+        ▼
+ Checkout Repository
+        │
+        ▼
+ Setup Node.js 22.x
+        │
+        ▼
+ npm ci
+        │
+        ▼
+ ESLint (Análisis estático) - ADICIONAL
+        │
+        ▼
+ Vitest (Pruebas unitarias)
+        │
+        ▼
+ Coverage Report
+        │
+        ▼
+ Upload Artifact
+
+
 ```
 
 ---
