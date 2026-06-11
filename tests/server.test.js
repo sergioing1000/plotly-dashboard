@@ -1,7 +1,6 @@
-const request = require("supertest");
-const { describe, it, expect } = require("vitest");
-
-const app = require("./server");
+import { describe, it, expect } from 'vitest';
+import request from 'supertest';
+import app from '../server.js';
 
 describe("Plotly Dashboard Server", () => {
 
