@@ -5,9 +5,6 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const PORT = 3000;
-
-
 app.get("/api/charts", (req, res) => {
   res.json({
     sales: {
@@ -25,7 +22,12 @@ app.get("/api/charts", (req, res) => {
   });
 });
 
+module.exports = app;
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const PORT = 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
