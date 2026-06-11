@@ -1,4 +1,5 @@
-#  Flujo CI/CD con GitHub Actions
+#  Pipeline CI con GitHub Actions
+
 
 Este proyecto utiliza **GitHub Actions** para automatizar la integración continua (CI) mediante la ejecución automática de pruebas unitarias y generación de reportes de cobertura cada vez que se realizan cambios en el código fuente.
 
@@ -11,12 +12,12 @@ Garantizar que cada cambio enviado al repositorio sea validado automáticamente 
 * Generación de reportes de cobertura de código.
 * Almacenamiento del reporte de cobertura como artefacto descargable.
 
-Se garantiza que 
-✅ Integración Continua (CI)
-✅ Análisis estático de código (ESLint)
-✅ Pruebas unitarias automatizadas (Vitest)
-✅ Medición de cobertura de código
-✅ Publicación de artefactos de cobertura
+Se garantiza que se logra \
+✅ Integración Continua (CI) \
+✅ Análisis estático de código (ESLint) \
+✅ Pruebas unitarias automatizadas (Vitest) \
+✅ Medición de cobertura de código \
+✅ Publicación de artefactos de cobertura \
 
 ---
 
@@ -258,3 +259,150 @@ Este archivo es el responsable de ejecutar automáticamente todo el proceso de i
 
 ### 📷npm run coverage
 ![Coverage](./assets/coverage.jpg)
+
+### 📷Github Actions
+![Coverage](./assets/actions.jpg)
+### 📷Github Actions All workflows
+![Coverage](./assets/actions2.jpg)
+
+____________________________________________________________________________
+
+#  Pipeline CD con Jenkins
+
+```text
+┌─────────────────────┐
+│ Push a GitHub       │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Jenkins Trigger     │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Clonar repositorio  │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ docker build        │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Login Docker Hub    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ docker push         │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Imagen disponible  │
+│   en Docker Hub     │
+└─────────────────────┘
+```
+
+## Jenkinsfile 
+
+
+```text
+pipeline {
+    agent any
+
+    environment {
+        REPO_URL = 'https://github.com/usuario/plotly-dashboard.git'
+        IMAGE_NAME = 'usuarioDockerHub/plotly-dashboard'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Clonar Repositorio') {
+            steps {
+                git branch: 'main', url: REPO_URL
+            }
+        }
+
+        stage('Construir Imagen Docker') {
+            steps {
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+            }
+        }
+
+        stage('Login Docker Hub') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
+
+                    sh """
+                    echo \$DOCKER_PASS | docker login \
+                    -u \$DOCKER_USER --password-stdin
+                    """
+                }
+            }
+        }
+
+        stage('Publicar Imagen') {
+            steps {
+                sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+
+                sh """
+                docker tag ${IMAGE_NAME}:${IMAGE_TAG} \
+                ${IMAGE_NAME}:latest
+                """
+
+                sh "docker push ${IMAGE_NAME}:latest"
+            }
+        }
+    }
+}
+```
+
+### Explicación de cada instrucción
+
+
+| Instrucción | Descripción | 
+| --- | --- |
+| FROM node:22-alpine | Utiliza una imagen ligera de Node.js 22. |
+| WORKDIR /app | Define el directorio de trabajo dentro del contenedor. |
+| COPY package*.json ./ | Copia package.json y package-lock.json. |
+| RUN npm install	 | Instala las dependencias del proyecto. |
+| COPY . .	 | Copia el resto de archivos de la aplicación. |
+| EXPOSE 3000		 | Documenta que la aplicación escucha en el puerto 3000. |
+| CMD ["node", "server.js"]		 | Inicia la aplicación Express. |
+
+## dockerfile 
+
+Docker version 29.2.1, build a5c7197
+
+```
+# Imagen base oficial de Node.js
+FROM node:22-alpine
+
+# Directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copiar el resto de la aplicación
+COPY . .
+
+# Puerto que utiliza la aplicación
+EXPOSE 3000
+
+# Comando para iniciar la aplicación
+CMD ["node", "server.js"]
+```
