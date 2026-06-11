@@ -234,3 +234,14 @@ Este archivo es el responsable de ejecutar automáticamente todo el proceso de i
 
 ## 📋 Evidencias de ejecución
 
+### 📷Coverage All Files
+![Coverage](./assets/coverage1.jpg)
+
+### 📷Coverage server.js
+![Coverage](./assets/coverage2.jpg)
+
+### 📷npm run test
+![Coverage](./assets/test.jpg)
+
+### 📷npm run coverage
+![Coverage](./assets/coverage.jpg)
