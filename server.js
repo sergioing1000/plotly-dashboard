@@ -1,5 +1,9 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -22,9 +26,9 @@ app.get("/api/charts", (req, res) => {
   });
 });
 
-module.exports = app;
+export default app;
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== "test") {
   const PORT = 3000;
 
   app.listen(PORT, () => {
